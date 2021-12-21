@@ -1,6 +1,7 @@
-import { Avatar, Card } from 'ant-design-vue'
+import { Avatar, Card  } from 'ant-design-vue'
 import { Component,Vue } from 'vue-property-decorator'
 import DataShow from '@/components/dataShow'
+import CardGrid from '@/components/cardGrid'
 import './home.less'
 import { projectData } from '@/api/api'
 
@@ -8,13 +9,14 @@ import { projectData } from '@/api/api'
     components:{
       'a-avatar':Avatar,
       'a-card':Card,
+      'a-card-grid':Card.Grid,
     },
-    props: {
-      
-    }
+    props: {}
 })
 export default class Home extends Vue{
     private nickname = localStorage.getItem('nickname') || 'jdrunk'
+    private projectList:Array<any> = []
+    private sourseList:Array<any> = []
     private dataList:Array<any> = [
       {
         title:'项目数',
@@ -35,7 +37,9 @@ export default class Home extends Vue{
     }
 
     getData(){
-      projectData().then(res=>{
+      projectData().then((res:any)=>{
+        this.projectList = res.projectList
+        this.sourseList = res.sourseData
         console.log(res)
       })
     }
@@ -56,11 +60,23 @@ export default class Home extends Vue{
             <div class="info-content">
               {
                 this.dataList?.map(item=>{
-                  return <DataShow title={item.title} data={item.number} />
+                  return <DataShow name={item.title} data={item.number} />
                 })
               }
             </div>
           </div>
+          <div class="project">
+            <a-card title="进行中的项目">
+              {
+                this.projectList?.map(item=>{
+                  return <a-card-grid style="width:33.33%;text-align:center">
+                    <CardGrid data={item}/>
+                  </a-card-grid>
+                })
+              }
+            </a-card>
+          </div>
+          
         </div>
     }
 }
