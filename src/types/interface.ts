@@ -7,6 +7,14 @@ export type IloginForm = {
 
 export type IRoute = {
     icon?:string,
-    show:boolean,
-    
+    show:boolean,  
+}
+
+export enum iconList {
+    "Alipay" = 'alipay',
+    "Facebook" = 'facebook',
+    "Wechat" = 'wechat',
+    "Zhihu" = 'zhihu',
+    "Ant Design" = 'ant-design',
+    "Github" = 'github'
 }
